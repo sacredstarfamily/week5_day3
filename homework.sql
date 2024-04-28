@@ -212,18 +212,25 @@ SELECT loyalty_member, COUNT(*)
 FROM customer
 GROUP BY loyalty_member;
 -- quuestion 1 homework
+--1. List all customers with their address who live in Texas (use JOINs)
+-- answer daniel alfredo dorothy thelma leonard
 SELECT c.customer_id,c.first_name ,c.first_name, a.address, a.district 
 FROM customer c
 JOIN address a ON c.customer_id = a.address_id 
 WHERE a.district  = 'Texas';
--- answer daniel alfredo dorothy thelma leonard
+
 -- question 2 homework 
+--2. List all payments of more than $7.00 with the customer’s first and last name
+-- answer 1406 customer payments over 7$
 SELECT c.first_name, c.last_name, p.amount
 FROM customer c
 JOIN payment p ON c.customer_id = p.customer_id
 WHERE p.amount > 7.00;
--- answer 1406 customer payments over 7$
+
 -- question 3 homework
+--3. Show all customer names who have made over $175 in payments (use
+subqueries)
+-- answer karl, rhonda, clarra, eleanor, marion, tommy
 SELECT c.first_name, c.last_name
 FROM customer c
 WHERE customer_id IN (
@@ -232,19 +239,41 @@ WHERE customer_id IN (
     GROUP BY customer_id
     HAVING SUM(amount) > 175
 );
--- answer karl, rhonda, clarra, eleanor, marion, tommy
---question 4 homework
+
+
 SELECT *
 FROM country c ;
+
 SELECT  * FROM address a ;
-SELECT c.customer_id, c.first_name , a.address, c2.city ,co.country 
+--question 4 homework
+--4. List all customers that live in Argentina (use multiple joins)
+-- 597 people
+SELECT DISTINCT c.customer_id, c.first_name, c.last_name , a.address,co.country 
 FROM customer c
 JOIN address a ON c.customer_id = a.address_id 
-JOIN city c2 ON	a.city_id  = a.city_id 
+JOIN city c2 ON	a.city_id  = a.city_id
 JOIN country co ON c2.country_id  = co.country_id
 WHERE co.country = 'Argentina';
 
 -- question 5 homework
+-- 5. Show all the film categories with their count in descending order
+--answer 	
+-- 1    Action	2006-02-15 09:46:27.000
+-- 2	Animation	2006-02-15 09:46:27.000
+-- 3	Children	2006-02-15 09:46:27.000
+-- 4	Classics	2006-02-15 09:46:27.000
+-- 5	Comedy	2006-02-15 09:46:27.000
+-- 6	Documentary	2006-02-15 09:46:27.000
+-- 7	Drama	2006-02-15 09:46:27.000
+-- 8	Family	2006-02-15 09:46:27.000
+-- 9	Foreign	2006-02-15 09:46:27.000
+-- 10	Games	2006-02-15 09:46:27.000
+-- 11	Horror	2006-02-15 09:46:27.000
+-- 12	Music	2006-02-15 09:46:27.000
+-- 13	New	2006-02-15 09:46:27.000
+-- 14	Sci-Fi	2006-02-15 09:46:27.000
+-- 15	Sports	2006-02-15 09:46:27.000
+-- 16	Travel	2006-02-15 09:46:27.000
 SELECT  *
 FROM category c ;
 SELECT c.name, COUNT(*) AS category_count
@@ -253,6 +282,8 @@ GROUP BY c.name
 ORDER BY category_count DESC;
 
 -- question 6 homework
+-- 6. What film had the most actors in it (show film info)?
+-- aanswer
 SELECT *
 FROM film_actor fa;
 SELECT  *
@@ -264,6 +295,8 @@ GROUP BY f.film_id, f.title
 ORDER BY actor_count DESC
 LIMIT 1;
 -- question 7
+-- 7. Which actor has been in the least movies?
+-- answer emmily
 SELECT *
 FROM actor a ;
 SELECT a.actor_id, a.first_name, COUNT(*) AS movie_count
@@ -273,6 +306,8 @@ GROUP BY a.actor_id, a.first_name
 ORDER BY movie_count ASC
 LIMIT 1;
 -- question 8
+-- 8. Which country has the most cities?
+-- answer
 SELECT * 
 FROM country c ;
 SELECT *
@@ -283,11 +318,46 @@ SELECT co.country, COUNT(*) AS city_count
 FROM country co
 JOIN address a ON co.country = a.district 
 JOIN city c ON c.city_id = a.city_id 
-GROUP BY co.country
+GROUP BY co.country;
 ORDER BY city_count DESC
 LIMIT 1;
 
 -- question 9
+-- 9. List the actors who have been in between 20 and 25 films.
+/*
+--answer 
+Jessica
+Christian
+Michael
+Bette
+Gene
+Christopher
+Ellen
+Charlize
+Sylvester
+Cuba
+Nick
+Burt
+Frances
+Meryl
+Nick
+Ben
+Parker
+Tim
+Spencer
+Tom
+Burt
+Cameron
+Kevin
+Salma
+Julia
+Debbie
+Milla
+Dan
+Susan
+Lisa
+Fay
+*/
 SELECT a.actor_id, a.first_name, COUNT(*) AS movie_count
 FROM actor a
 JOIN film_actor fa ON a.actor_id = fa.actor_id
